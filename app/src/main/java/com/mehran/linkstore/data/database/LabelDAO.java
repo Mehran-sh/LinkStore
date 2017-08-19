@@ -15,7 +15,7 @@ import com.mehran.linkstore.data.models.Label;
 @Dao
 public interface LabelDAO {
     @Insert
-    void insertLabel(Label label);
+    long insertLabel(Label label);
 
     @Update
     void update(Label label);

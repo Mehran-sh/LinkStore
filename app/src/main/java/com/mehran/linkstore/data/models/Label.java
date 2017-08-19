@@ -9,17 +9,17 @@ import android.arch.persistence.room.PrimaryKey;
 @Entity
 public class Label {
     @PrimaryKey(autoGenerate = true)
-    private int id;
+    private long id;
 
     private String title;
 
     private String color;
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
 
@@ -37,5 +37,37 @@ public class Label {
 
     public void setColor(String color) {
         this.color = color;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if(obj == null)
+        {
+            return false;
+        }
+
+        if(getClass() != obj.getClass())
+        {
+            return false;
+        }
+
+        final Label targetLabel = (Label) obj;
+
+        if(targetLabel.getId() != this.getId())
+        {
+            return false;
+        }
+
+        if(!targetLabel.getTitle().equalsIgnoreCase(this.getTitle()))
+        {
+            return false;
+        }
+
+        if(!targetLabel.getColor().equalsIgnoreCase(this.getColor()))
+        {
+            return false;
+        }
+
+        return true;
     }
 }

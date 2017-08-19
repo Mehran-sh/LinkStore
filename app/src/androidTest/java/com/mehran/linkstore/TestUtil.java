@@ -1,5 +1,6 @@
 package com.mehran.linkstore;
 
+import com.mehran.linkstore.data.models.Label;
 import com.mehran.linkstore.data.models.Link;
 
 /**
@@ -15,5 +16,13 @@ public class TestUtil {
         link.setImportant(isImportant);
 
         return link;
+    }
+
+    public static Label createLabel(String title, String color)
+    {
+        Label label = new Label();
+        label.setTitle(title);
+        label.setColor(color);
+        return label;
     }
 }

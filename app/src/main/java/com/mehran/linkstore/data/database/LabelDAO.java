@@ -12,6 +12,8 @@ import android.arch.persistence.room.Update;
 
 import com.mehran.linkstore.data.models.Label;
 
+import java.util.List;
+
 @Dao
 public interface LabelDAO {
     @Insert
@@ -24,5 +26,5 @@ public interface LabelDAO {
     void delete(Label label);
 
     @Query("SELECT * FROM Label")
-    Label[] loadAllLabels();
+    List<Label> loadAllLabels();
 }

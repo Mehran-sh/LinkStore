@@ -8,6 +8,8 @@ import android.arch.persistence.room.Update;
 
 import com.mehran.linkstore.data.models.Link;
 
+import java.util.List;
+
 /**
  * Created by mehran on 19.08.17.
  */
@@ -24,5 +26,5 @@ public interface LinkDAO {
     void deleteLink(Link link);
 
     @Query("SELECT * FROM Link")
-    Link[] loadAllLinks();
+    List<Link> loadAllLinks();
 }

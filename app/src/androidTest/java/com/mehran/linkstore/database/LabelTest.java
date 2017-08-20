@@ -15,6 +15,8 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import java.util.List;
+
 import static org.hamcrest.Matchers.equalTo;
 import static org.junit.Assert.assertThat;
 
@@ -48,8 +50,8 @@ public class LabelTest {
         long id = labelDAO.insertLabel(label);
         label.setId(id);
 
-        Label[] labels = labelDAO.loadAllLabels();
-        Label addedLabel = labels[0];
+        List<Label> labels = labelDAO.loadAllLabels();
+        Label addedLabel = labels.get(0);
 
         assertThat(addedLabel, equalTo(label));
     }
@@ -62,8 +64,8 @@ public class LabelTest {
         label.setId(id);
         label.setColor("newColor");
         labelDAO.update(label);
-        Label[] labels = labelDAO.loadAllLabels();
-        Label updatedLabel = labels[0];
+        List<Label> labels = labelDAO.loadAllLabels();
+        Label updatedLabel = labels.get(0);
 
         assertThat(updatedLabel, equalTo(label));
     }
@@ -76,8 +78,8 @@ public class LabelTest {
         label.setId(id);
         label.setColor("newColor");
         labelDAO.delete(label);
-        Label[] labels = labelDAO.loadAllLabels();
+        List<Label> labels = labelDAO.loadAllLabels();
 
-        assertThat(labels.length, equalTo(0));
+        assertThat(labels.size(), equalTo(0));
     }
 }

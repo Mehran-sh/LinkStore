@@ -15,6 +15,8 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import java.util.List;
+
 import static org.hamcrest.Matchers.equalTo;
 import static org.junit.Assert.assertThat;
 
@@ -48,8 +50,8 @@ public class LinkTest {
 
         long id = linkDAO.insertLink(link);
         link.setId(id);
-        Link[] links = linkDAO.loadAllLinks();
-        Link addedLink = links[0];
+        List<Link> links = linkDAO.loadAllLinks();
+        Link addedLink = links.get(0);
         assertThat(addedLink, equalTo(link));
     }
 
@@ -63,8 +65,8 @@ public class LinkTest {
         link.setRead(true);
         linkDAO.updateLink(link);
 
-        Link[] links = linkDAO.loadAllLinks();
-        Link updatedLink = links[0];
+        List<Link> links = linkDAO.loadAllLinks();
+        Link updatedLink = links.get(0);
         assertThat(updatedLink, equalTo(link));
     }
 
@@ -76,7 +78,7 @@ public class LinkTest {
         long id = linkDAO.insertLink(link);
         link.setId(id);
         linkDAO.deleteLink(link);
-        Link[] links = linkDAO.loadAllLinks();
-        assertThat(links.length, equalTo(0));
+        List<Link> links  = linkDAO.loadAllLinks();
+        assertThat(links.size(), equalTo(0));
     }
 }

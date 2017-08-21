@@ -2,10 +2,17 @@
 
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Base.Theme.AppCompat.Light.DarkActionBar">
+        <item name="windowNoTitle">true</item>
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:alertDialogTheme">@style/Theme.AlertDialogTheme</item>
+    </style>
+
+    <style name="Theme.AlertDialogTheme" parent="@style/Theme.AppCompat.Light.Dialog.Alert">
+        <!--<item name="colorAccent">@color/colorPrimary</item>-->
+        <item name="android:textColorPrimary">@color/black</item>
     </style>
 
 </resources>

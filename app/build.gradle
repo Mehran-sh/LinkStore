@@ -25,6 +25,7 @@ dependencies {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
     compile 'com.android.support:appcompat-v7:26.0.1'
+    compile 'com.android.support:design:26.0.1'
     compile 'com.github.clans:fab:1.6.4'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
     compile 'android.arch.persistence.room:runtime:1.0.0-alpha5'

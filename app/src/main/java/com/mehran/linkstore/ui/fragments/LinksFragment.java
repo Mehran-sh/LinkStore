@@ -3,6 +3,7 @@ package com.mehran.linkstore.ui.fragments;
 import android.app.Fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import com.github.clans.fab.FloatingActionButton;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +13,7 @@ import com.mehran.linkstore.R;
 import com.mehran.linkstore.data.models.Link;
 import com.mehran.linkstore.ui.adapters.CustomListAdapter;
 import com.mehran.linkstore.ui.adapters.viewholders.LinkItemViewHolder;
+import com.mehran.linkstore.ui.dialogs.LinkDialog;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,10 +25,14 @@ import butterknife.ButterKnife;
  * Created by mehran on 20.08.17.
  */
 
-public class LinksFragment extends Fragment {
+public class LinksFragment extends Fragment implements View.OnClickListener {
 
     @BindView(R.id.lvLinks)
     ListView lvLinks;
+
+    @BindView(R.id.fab)
+    FloatingActionButton floatingActionButton;
+
     CustomListAdapter<Link, LinkItemViewHolder> linksAdapter;
 
     public static LinksFragment getInstance()
@@ -48,6 +54,8 @@ public class LinksFragment extends Fragment {
     {
         linksAdapter = new CustomListAdapter<>(getLinks(), LinkItemViewHolder.class, R.layout.listitem_link);
         lvLinks.setAdapter(linksAdapter);
+
+        floatingActionButton.setOnClickListener(this);
     }
 
     private List<Link> getLinks()
@@ -63,5 +71,21 @@ public class LinksFragment extends Fragment {
         links.add(l2);
 
         return links;
+    }
+
+    @Override
+    public void onClick(View view) {
+        switch (view.getId())
+        {
+            case R.id.fab:
+                showLinkDialog(null);
+                break;
+        }
+    }
+
+    private void showLinkDialog(Link link)
+    {
+        LinkDialog linkDialog = LinkDialog.getInstance(link);
+        linkDialog.show(getFragmentManager(), LinkDialog.class.getSimpleName());
     }
 }

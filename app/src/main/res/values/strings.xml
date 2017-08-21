@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">Link Store</string>
+
+    <string name="link_title">Link</string>
+    <string name="save">Save</string>
+    <string name="cancel">Cancel</string>
+    <string name="important">Is important</string>
 </resources>

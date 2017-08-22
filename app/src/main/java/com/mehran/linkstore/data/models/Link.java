@@ -2,13 +2,17 @@ package com.mehran.linkstore.data.models;
 
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.PrimaryKey;
+import android.os.Parcel;
+import android.os.Parcelable;
 
 /**
  * Created by mehran on 19.08.17.
  */
 
 @Entity
-public class Link {
+public class Link implements Parcelable {
+    public static final String KEY = Link.class.getSimpleName();
+
     @PrimaryKey(autoGenerate = true)
     private long id;
 
@@ -85,5 +89,37 @@ public class Link {
         }
 
         return true;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel out, int i) {
+        out.writeLong(this.id);
+        out.writeString(this.url);
+        out.writeByte((byte)(this.isRead ? 1 : 0));
+        out.writeByte((byte)(this.isImportant ? 1 : 0));
+    }
+
+    public static final Parcelable.Creator<Link> CREATOR
+            = new Parcelable.Creator<Link>() {
+        public Link createFromParcel(Parcel in) {
+            return new Link(in);
+        }
+
+        public Link[] newArray(int size) {
+            return new Link[size];
+        }
+    };
+
+    private Link(Parcel in)
+    {
+        this.id = in.readLong();
+        this.url = in.readString();
+        this.isRead = in.readByte() != 0;
+        this.isImportant = in.readByte() != 0;
     }
 }

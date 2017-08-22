@@ -19,6 +19,8 @@ import com.mehran.linkstore.data.models.Link;
 import com.mehran.linkstore.ui.adapters.CustomListAdapter;
 import com.mehran.linkstore.ui.adapters.viewholders.LinkItemViewHolder;
 import com.mehran.linkstore.ui.dialogs.LinkDialog;
+import com.mehran.linkstore.ui.interfaces.ILoadLinkListener;
+import com.mehran.linkstore.ui.tasks.LoadLinksTask;
 import com.mehran.linkstore.ui.tasks.SaveLinkTask;
 
 import java.util.ArrayList;
@@ -31,7 +33,7 @@ import butterknife.ButterKnife;
  * Created by mehran on 20.08.17.
  */
 
-public class LinksFragment extends Fragment implements View.OnClickListener, LinkDialog.ILinkDialogListener {
+public class LinksFragment extends Fragment implements View.OnClickListener {
 
     private static final String TAG = LinksFragment.class.getSimpleName();
     private static final int REQUEST_ADD_LINK = 1;
@@ -41,7 +43,7 @@ public class LinksFragment extends Fragment implements View.OnClickListener, Lin
     @BindView(R.id.fab)
     FloatingActionButton floatingActionButton;
 
-    CustomListAdapter<Link, LinkItemViewHolder> linksAdapter;
+    CustomListAdapter<Link, LinkItemViewHolder> linksAdapter ;
 
     public static LinksFragment getInstance()
     {
@@ -60,25 +62,32 @@ public class LinksFragment extends Fragment implements View.OnClickListener, Lin
 
     private void initUi()
     {
-        linksAdapter = new CustomListAdapter<>(getLinks(), LinkItemViewHolder.class, R.layout.listitem_link);
-        lvLinks.setAdapter(linksAdapter);
-
         floatingActionButton.setOnClickListener(this);
+        loadLinks();
     }
 
-    private List<Link> getLinks()
+    private void buildLinksList(List<Link> links)
     {
-        Link l1 = new Link();
-        l1.setUrl("link 1");
+        if(linksAdapter == null) {
+            linksAdapter = new CustomListAdapter<>(links, LinkItemViewHolder.class, R.layout.listitem_link);
+            lvLinks.setAdapter(linksAdapter);
+        }
+        else
+        {
+            linksAdapter.setData(links);
+            linksAdapter.notifyDataSetChanged();
+        }
+    }
 
-        Link l2 = new Link();
-        l2.setUrl("link 2");
-
-        List<Link> links = new ArrayList<>();
-        links.add(l1);
-        links.add(l2);
-
-        return links;
+    private void loadLinks()
+    {
+        new LoadLinksTask(DatabaseManagement.getInstance(getActivity().getApplicationContext())
+                .getDb().linkDAO(), new ILoadLinkListener() {
+            @Override
+            public void onLinksLoaded(List<Link> links) {
+                buildLinksList(links);
+            }
+        }).execute();
     }
 
     @Override
@@ -96,11 +105,6 @@ public class LinksFragment extends Fragment implements View.OnClickListener, Lin
         LinkDialog linkDialog = LinkDialog.getInstance(link);
         linkDialog.setTargetFragment(this, REQUEST_ADD_LINK);
         linkDialog.show(getFragmentManager(), LinkDialog.class.getSimpleName());
-    }
-
-    @Override
-    public void onSaveLink(Link link) {
-
     }
 
     @Override
@@ -122,5 +126,7 @@ public class LinksFragment extends Fragment implements View.OnClickListener, Lin
     {
         new SaveLinkTask(DatabaseManagement.getInstance(getActivity().getApplicationContext()).getDb().linkDAO())
                 .execute(link);
+
+        loadLinks();
     }
 }

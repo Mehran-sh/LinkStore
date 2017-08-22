@@ -49,9 +49,17 @@ public class LinksFragment extends Fragment implements View.OnClickListener,
 
     CustomListAdapter<Link, LinkItemViewHolder> linksAdapter ;
 
-    public static LinksFragment getInstance()
+    String urlToShare = null;
+
+    public static LinksFragment getInstance(String url)
     {
         LinksFragment fragment = new LinksFragment();
+        if(url != null)
+        {
+            Bundle args = new Bundle();
+            args.putString("url", url);
+            fragment.setArguments(args);
+        }
         return fragment;
     }
 
@@ -61,7 +69,28 @@ public class LinksFragment extends Fragment implements View.OnClickListener,
         View view = inflater.inflate(R.layout.fragment_links, container, false);
         ButterKnife.bind(this, view);
         initUi();
+        showDialogIfUrlExists();
         return view;
+    }
+
+    private void showDialogIfUrlExists()
+    {
+        if(urlToShare != null)
+        {
+            Link link = new Link();
+            link.setUrl(urlToShare);
+            showLinkDialog(link);
+        }
+    }
+
+    @Override
+    public void setArguments(Bundle args) {
+        super.setArguments(args);
+
+        if(args.containsKey("url"))
+        {
+            urlToShare = args.getString("url");
+        }
     }
 
     private void initUi()

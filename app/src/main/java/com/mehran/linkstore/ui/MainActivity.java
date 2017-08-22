@@ -2,8 +2,10 @@ package com.mehran.linkstore.ui;
 
 import android.app.Fragment;
 import android.app.FragmentTransaction;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.webkit.URLUtil;
 
 import com.mehran.linkstore.R;
 import com.mehran.linkstore.ui.fragments.LinksFragment;
@@ -17,12 +19,35 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        openHomeFragment();
+        String url = getUrlFromIntent();
+        openHomeFragment(url);
     }
 
-    private void openHomeFragment()
+    private String getUrlFromIntent()
     {
-        LinksFragment fragment = LinksFragment.getInstance();
+        Intent intent = getIntent();
+        String action = intent.getAction();
+        String type = intent.getType();
+
+        if(Intent.ACTION_SEND.equalsIgnoreCase(action))
+        {
+            if ("text/plain".equals(type))
+            {
+                String sharedText = intent.getStringExtra(Intent.EXTRA_TEXT);
+                if(URLUtil.isValidUrl(sharedText))
+                {
+                    return sharedText;
+                }
+            }
+        }
+
+        return null;
+    }
+
+    private void openHomeFragment(String url)
+    {
+        LinksFragment fragment = LinksFragment.getInstance(url);
+
         openFragment(fragment);
     }
 

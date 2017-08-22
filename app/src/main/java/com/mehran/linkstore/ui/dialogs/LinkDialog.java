@@ -71,6 +71,7 @@ public class LinkDialog extends DialogFragment implements View.OnClickListener {
     {
         btnSave.setOnClickListener(this);
         btnCancel.setOnClickListener(this);
+        setLinkObject(currentLink);
     }
 
     private boolean validateForm()
@@ -82,6 +83,14 @@ public class LinkDialog extends DialogFragment implements View.OnClickListener {
         }
 
         return true;
+    }
+
+    public void setLinkObject(Link link)
+    {
+        if(link != null)
+        {
+            txtUrl.setText(link.getUrl());
+        }
     }
 
     public Link getLinkObject()

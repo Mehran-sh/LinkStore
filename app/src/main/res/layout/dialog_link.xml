@@ -4,9 +4,10 @@
     android:layout_height="match_parent">
     <EditText
         android:id="@+id/txtUrl"
-        android:layout_width="match_parent"
+        android:layout_width="300dp"
         android:layout_height="wrap_content"
-        android:hint="@string/link_title"/>
+        android:hint="@string/link_title"
+        android:inputType="textUri"/>
     <CheckBox
         android:id="@+id/chkImportant"
         android:layout_width="wrap_content"

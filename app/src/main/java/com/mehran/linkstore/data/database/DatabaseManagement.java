@@ -29,4 +29,9 @@ public class DatabaseManagement {
         this.db = Room.databaseBuilder(context,
                 LinkStoreDB.class, DATABASE_NAME).build();
     }
+
+    public LinkStoreDB getDb()
+    {
+        return db;
+    }
 }

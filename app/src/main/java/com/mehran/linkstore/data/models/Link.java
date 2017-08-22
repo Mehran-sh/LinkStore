@@ -124,4 +124,10 @@ public class Link implements Parcelable {
         this.isRead = in.readByte() != 0;
         this.isImportant = in.readByte() != 0;
     }
+
+    @Override
+    public String toString() {
+        return String.format("URL: %s, isRead: %s, isImportant: %s",
+                this.url, this.isRead, this.isImportant);
+    }
 }

@@ -1,6 +1,7 @@
 package com.mehran.linkstore.ui.dialogs;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.app.DialogFragment;
 import android.content.Context;
 import android.content.Intent;
@@ -42,6 +43,8 @@ public class LinkDialog extends DialogFragment implements View.OnClickListener {
         Bundle args = new Bundle();
         args.putParcelable(Link.KEY, link);
         linkDialog.setArguments(args);
+        linkDialog.setStyle(DialogFragment.STYLE_NORMAL, R.style.CustomDialog);
+
         return linkDialog;
     }
 
@@ -72,6 +75,7 @@ public class LinkDialog extends DialogFragment implements View.OnClickListener {
         btnSave.setOnClickListener(this);
         btnCancel.setOnClickListener(this);
         setLinkObject(currentLink);
+        getDialog().setTitle(R.string.addLinkTitle);
     }
 
     private boolean validateForm()

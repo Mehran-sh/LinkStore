@@ -1,4 +1,5 @@
 <resources>
+    <dimen name="space_s">5dp</dimen>
     <dimen name="space_m">10dp</dimen>
     <dimen name="space_xl">50dp</dimen>
 </resources>

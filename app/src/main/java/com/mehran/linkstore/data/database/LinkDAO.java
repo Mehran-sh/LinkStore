@@ -25,6 +25,6 @@ public interface LinkDAO {
     @Delete
     void deleteLink(Link link);
 
-    @Query("SELECT * FROM Link")
+    @Query("SELECT * FROM Link ORDER BY id DESC")
     List<Link> loadAllLinks();
 }

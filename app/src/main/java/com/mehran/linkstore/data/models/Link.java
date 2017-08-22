@@ -115,6 +115,8 @@ public class Link implements Parcelable {
         }
     };
 
+    public Link(){}
+
     private Link(Parcel in)
     {
         this.id = in.readLong();

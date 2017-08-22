@@ -3,6 +3,7 @@ package com.mehran.linkstore.ui.fragments;
 import android.app.Activity;
 import android.app.Fragment;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import com.github.clans.fab.FloatingActionButton;
@@ -11,6 +12,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.mehran.linkstore.R;
@@ -33,7 +35,9 @@ import butterknife.ButterKnife;
  * Created by mehran on 20.08.17.
  */
 
-public class LinksFragment extends Fragment implements View.OnClickListener {
+public class LinksFragment extends Fragment implements View.OnClickListener,
+    ListView.OnItemClickListener
+{
 
     private static final String TAG = LinksFragment.class.getSimpleName();
     private static final int REQUEST_ADD_LINK = 1;
@@ -71,6 +75,7 @@ public class LinksFragment extends Fragment implements View.OnClickListener {
         if(linksAdapter == null) {
             linksAdapter = new CustomListAdapter<>(links, LinkItemViewHolder.class, R.layout.listitem_link);
             lvLinks.setAdapter(linksAdapter);
+            lvLinks.setOnItemClickListener(this);
         }
         else
         {
@@ -128,5 +133,16 @@ public class LinksFragment extends Fragment implements View.OnClickListener {
                 .execute(link);
 
         loadLinks();
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
+        Link link = linksAdapter.getItem(position);
+        Log.d(TAG, "Link selected: " + link.toString());
+
+        // TODO: 22.08.17 set as read
+        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(link.getUrl()));
+        startActivity(browserIntent);
+        
     }
 }

@@ -6,4 +6,5 @@
     <string name="cancel">Cancel</string>
     <string name="important">Is important</string>
     <string name="addLinkTitle">Add new link</string>
+    <string name="message_couldNotGetLink">Could not get the link</string>
 </resources>

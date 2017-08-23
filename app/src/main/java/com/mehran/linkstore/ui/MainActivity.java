@@ -38,10 +38,36 @@ public class MainActivity extends AppCompatActivity {
                 {
                     return sharedText;
                 }
+                else
+                {
+                    return searchForUrlInText(sharedText);
+                }
             }
         }
 
         return null;
+    }
+
+    private String searchForUrlInText(String text)
+    {
+        String result = text;
+
+        try
+        {
+            int startIndex = result.toLowerCase().indexOf("http");
+            result = result.substring(startIndex);
+            int endIndex = result.indexOf(" ");
+            if(endIndex != -1)
+            {
+                result = result.substring(0, endIndex);
+            }
+        }
+        catch (Exception e)
+        {
+            result = "";
+        }
+
+        return result;
     }
 
     private void openHomeFragment(String url)

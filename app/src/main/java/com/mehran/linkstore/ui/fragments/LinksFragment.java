@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.mehran.linkstore.R;
 import com.mehran.linkstore.data.database.DatabaseManagement;
@@ -77,9 +78,16 @@ public class LinksFragment extends Fragment implements View.OnClickListener,
     {
         if(urlToShare != null)
         {
-            Link link = new Link();
-            link.setUrl(urlToShare);
-            showLinkDialog(link);
+            if(urlToShare.equalsIgnoreCase(""))
+            {
+                Toast.makeText(getActivity(), getString(R.string.message_couldNotGetLink),
+                    Toast.LENGTH_SHORT).show();
+            }
+            else {
+                Link link = new Link();
+                link.setUrl(urlToShare);
+                showLinkDialog(link);
+            }
         }
     }
 

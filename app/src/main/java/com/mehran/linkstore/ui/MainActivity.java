@@ -2,6 +2,9 @@ package com.mehran.linkstore.ui;
 
 import android.app.Fragment;
 import android.app.FragmentTransaction;
+import android.content.ClipData;
+import android.content.ClipboardManager;
+import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -9,6 +12,8 @@ import android.webkit.URLUtil;
 
 import com.mehran.linkstore.R;
 import com.mehran.linkstore.ui.fragments.LinksFragment;
+
+import static android.content.ClipDescription.MIMETYPE_TEXT_PLAIN;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -20,6 +25,10 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         String url = getUrlFromIntent();
+        if(url == null)
+        {
+            url = getUrlFromClipBoard();
+        }
         openHomeFragment(url);
     }
 
@@ -60,6 +69,32 @@ public class MainActivity extends AppCompatActivity {
             if(endIndex != -1)
             {
                 result = result.substring(0, endIndex);
+            }
+        }
+        catch (Exception e)
+        {
+            result = "";
+        }
+
+        return result;
+    }
+
+    private String getUrlFromClipBoard()
+    {
+        String result = "";
+        try
+        {
+            ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+            String pasteData = "";
+            if(clipboard.getPrimaryClipDescription().hasMimeType(MIMETYPE_TEXT_PLAIN))
+            {
+                ClipData.Item item = clipboard.getPrimaryClip().getItemAt(0);
+                pasteData = item.getText().toString();
+                result = searchForUrlInText(pasteData);
+            }
+            else
+            {
+                result = null;
             }
         }
         catch (Exception e)
